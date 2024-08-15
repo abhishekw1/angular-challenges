@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/directive-selector */
-import { BtnDisabledDirective } from '@angular-challenges/decoupling/brain';
+import { BUTTON_STATE_TOKEN } from '@angular-challenges/decoupling/core';
 import {
   Directive,
   ElementRef,
@@ -18,12 +18,13 @@ import {
   },
 })
 export class BtnHelmetDirective {
-  btnState = inject(BtnDisabledDirective, { self: true });
+  btnState = inject(BUTTON_STATE_TOKEN, { self: true });
   public state = this.btnState?.state ?? signal('disabled').asReadonly();
   private renderer = inject(Renderer2);
   private element = inject(ElementRef);
 
   private rendererEffect = effect(() => {
+    console.log(this.btnState);
     this.renderer.setAttribute(
       this.element.nativeElement,
       'data-state',
